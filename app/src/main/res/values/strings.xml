@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Skripsi Rizal</string>
     <string name="judul_skripsi">Rancang Bangun Aplikasi Monitoring Kelembaban Tanah Berbasis Android Dengan Arduino Uno</string>
+    <string name="contoh_http_192_168_137_1">contoh : http://192.168.137.1</string>
 </resources>

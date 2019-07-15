@@ -1,14 +1,21 @@
 package id.rizal.skripsi;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -52,6 +59,9 @@ public class MainActivity extends AppCompatActivity
     private TextView tvKelembaban;
     private TextView tvStatus;
     private TextView tvTindakan;
+    private AlertDialog.Builder dialog;
+    private LayoutInflater inflater;
+    private View dialogView;
     private Context context = MainActivity.this;
     private List<DataEntry> listHasilTanah = new ArrayList<>();
 
@@ -70,6 +80,34 @@ public class MainActivity extends AppCompatActivity
         refreshLayout = findViewById(R.id.refreshLayout);
 
         HOST_GET_DATA = Config.HOST + "/skripsi/read.php";
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("InflateParams")
+            @Override
+            public void onClick(View view) {
+                dialog = new AlertDialog.Builder(MainActivity.this);
+                inflater = getLayoutInflater();
+                dialogView = inflater.inflate(R.layout.layout_ip, null);
+                dialog.setView(dialogView);
+                dialog.setCancelable(true);
+                dialog.setTitle("Setting Server");
+
+                @SuppressLint("CutPasteId") final EditText alamatServer = dialogView.findViewById(R.id.alamatServer);
+                @SuppressLint("CutPasteId") Button btnOk = dialogView.findViewById(R.id.btnOk);
+                alamatServer.setText(Config.HOST);
+                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Config.HOST = alamatServer.getText().toString();
+                        dialogInterface.dismiss();
+                        startActivity(new Intent(context, MainActivity.class));
+                        finish();
+
+                    }
+                });
+                dialog.show();
+            }
+        });
 
         cvTanah.setProgressBar(progressBar);
         refreshLayout.setOnRefreshListener(this);
@@ -215,7 +253,7 @@ public class MainActivity extends AppCompatActivity
         //TODO : Make Line
         makeLine(chart.line(mappingValue), detailName);
 
-        chart.legend().enabled(true);
+        chart.legend().enabled(false);
         anyChartView.setChart(chart);
         APIlib.getInstance().setActiveAnyChartView(null);
     }
