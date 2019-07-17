@@ -49,7 +49,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static String HOST_GET_DATA;
+    private static String HOST_GET_DATA = "https://aopev.site/skripsi_rizal/read.php";
     private SwipeRefreshLayout refreshLayout;
     private ImageView logo;
     private MultiWaveHeader waveHeader;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         tvTindakan = findViewById(R.id.tvTindakan);
         refreshLayout = findViewById(R.id.refreshLayout);
 
-        HOST_GET_DATA = Config.HOST + "/skripsi/read.php";
+//        HOST_GET_DATA = Config.HOST + "/skripsi/read.php";
 
         logo.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InflateParams")
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
                 dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Config.HOST = alamatServer.getText().toString();
+                        HOST_GET_DATA = alamatServer.getText().toString();
                         dialogInterface.dismiss();
                         startActivity(new Intent(context, MainActivity.class));
                         finish();
